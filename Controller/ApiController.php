@@ -2,11 +2,11 @@
 
 namespace Corrupt\CommonBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-abstract class ApiController extends Controller
+abstract class ApiController extends BaseController
 {
     /**
      * Convert form errors into array
