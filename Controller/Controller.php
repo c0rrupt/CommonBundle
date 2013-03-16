@@ -38,9 +38,13 @@ class Controller extends BaseController
         return $this->getEntityManager()->getRepository(is_object($entity) ? get_class($entity) : $entity);
     }
 
-    protected function persist($entity)
+    protected function persist($entity, $flush = false)
     {
         $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->flush();
+        }
     }
 
     protected function remove($entity)
