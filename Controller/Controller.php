@@ -22,6 +22,17 @@ class Controller extends BaseController
     }
 
     /**
+     * Add flash message
+     *
+     * @param $type
+     * @param $message
+     */
+    protected function addFlash($type, $message)
+    {
+        $this->getFlashBag()->add($type, $message);
+    }
+
+    /**
      * @return EntityManager
      */
     protected function getEntityManager()
@@ -47,9 +58,13 @@ class Controller extends BaseController
         }
     }
 
-    protected function remove($entity)
+    protected function remove($entity, $flush = false)
     {
         $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->flush();
+        }
     }
 
     protected function flush($entity = null)
