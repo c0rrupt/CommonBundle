@@ -4,6 +4,8 @@ namespace Corrupt\CommonBundle\Controller;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 abstract class ApiController extends Controller
 {
@@ -48,5 +50,27 @@ abstract class ApiController extends Controller
     protected function createAccessDenied($message = '')
     {
         throw new HttpException(403, $message);
+    }
+
+    /**
+     * Convert constraint violations collection into array of errors
+     *
+     * @param ConstraintViolationListInterface $violations
+     * @return array
+     */
+    protected function getConstraintViolationsMsgs(ConstraintViolationListInterface $violations)
+    {
+        if (count($violations) > 0) {
+            $errors = array();
+
+            /* @var ConstraintViolationInterface $violation */
+            foreach ($violations as $violation) {
+                $errors[] = sprintf('%s: %s', $violation->getPropertyPath(), $violation->getMessage());
+            }
+
+            return $errors;
+        }
+
+        return array();
     }
 }
