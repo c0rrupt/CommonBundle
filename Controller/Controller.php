@@ -27,9 +27,10 @@ class Controller extends BaseController
      * @param $type
      * @param $message
      */
-    protected function addFlash($type, $message)
+    protected function addFlash($type, $message = null, array $placeholders = array())
     {
-        $this->getFlashBag()->add($type, $message);
+        $message = $message ?: sprintf('%s.%s', $this->getRequest()->attributes->get('_route'), $type);
+        $this->getFlashBag()->add($type, $this->get('translator')->trans($message, $placeholders));
     }
 
     /**
